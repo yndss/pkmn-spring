@@ -1,0 +1,35 @@
+services:
+  pkmn-app:
+    image: pkmn-tag
+    build: .
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - pkmn-db-migration:/db/migration
+    environment:
+      DATABASE_URL: pkmn-database
+    depends_on:
+      - pkmn-database
+    networks:
+      - pkmn-net
+
+  pkmn-database:
+    image: postgres:17.2-alpine
+    restart: "no"
+    ports:
+      - "5432:5432"
+    volumes:
+      - pkmn-database_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: pkmn_user
+      POSTGRES_PASSWORD: pkmn_password
+      POSTGRES_DB: pkmn_db
+    networks:
+      - pkmn-net
+
+volumes:
+  pkmn-database_data:
+  pkmn-db-migration:
+networks:
+  pkmn-net:
