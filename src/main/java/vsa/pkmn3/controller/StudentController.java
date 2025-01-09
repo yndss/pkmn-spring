@@ -26,10 +26,8 @@ public class StudentController {
     }
 
     @GetMapping("")
-    public Student getStudentByFullName(@RequestParam String firstName,
-                               @RequestParam String surName,
-                               @RequestParam String familyName) {
-        return studentService.getStudentByFullName(firstName, surName, familyName);
+    public Student getStudentByFullName(@RequestBody Student student) {
+        return studentService.getStudentByFullName(student.getFirstName(), student.getSurName(), student.getFamilyName());
     }
 
     @PostMapping("")
